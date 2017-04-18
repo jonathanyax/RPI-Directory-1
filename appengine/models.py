@@ -27,7 +27,8 @@ person_attributes = [
   'mailing_address',
   'directory_id',
   'blacklisted',
-  'claimed'
+  'claimed',
+  'three_months_passed'
 ]
 
 map_attributes = [
@@ -84,6 +85,7 @@ class Person(ndb.Model):
   mailing_address = ndb.StringProperty(indexed=False)
   date_crawled = ndb.DateTimeProperty(auto_now=True,indexed=False)
   date_second_crawl = ndb.DateTimeProperty(auto_now=True, indexed=False)
+  three_months_passed = ndb.StringProperty(indexed=False)
   directory_id = ndb.StringProperty(indexed=False)
   picture = ndb.BlobProperty()
   linked_account = ndb.UserProperty()
@@ -146,3 +148,5 @@ class SuggestObject(ndb.Model):
   """Model to hold suggestion objects."""
   name = ndb.StringProperty(indexed=False)
   json = ndb.JsonProperty(indexed=False)
+
+  
