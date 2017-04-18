@@ -25,7 +25,9 @@ person_attributes = [
   'office_location',
   'campus_mailstop',
   'mailing_address',
-  'directory_id'
+  'directory_id',
+  'blacklisted',
+  'claimed'
 ]
 
 map_attributes = [
@@ -81,6 +83,7 @@ class Person(ndb.Model):
   campus_mailstop = ndb.StringProperty(indexed=False)
   mailing_address = ndb.StringProperty(indexed=False)
   date_crawled = ndb.DateTimeProperty(auto_now=True,indexed=False)
+  date_second_crawl = ndb.DateTimeProperty(auto_now=True, indexed=False)
   directory_id = ndb.StringProperty(indexed=False)
   picture = ndb.BlobProperty()
   linked_account = ndb.UserProperty()
