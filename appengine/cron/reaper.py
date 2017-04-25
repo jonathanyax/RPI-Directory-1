@@ -26,6 +26,10 @@ from models import StatsObject
 
 from datetime import datetime
 
+import string
+
+_INDEX_NAME = 'person-db2'
+
 #to store the dates of the user
 personDateAttributes = [
 	'email',
