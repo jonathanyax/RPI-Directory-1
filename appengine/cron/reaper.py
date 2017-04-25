@@ -47,4 +47,3 @@ class Reaper(webapp2.RequestHandler):
 		if (((secnod_crawl.year - first_crawl.year) * 12) + (first_crawl.month - secnod_crawl.month)) >= 3:
 			Person.three_months_passed == True
 
-		
