@@ -19,6 +19,7 @@ NUM_THREADS = 500
 
 import string
 
+#Database that stores all the information
 _INDEX_NAME = 'person-db2'
 
 def split_words(field_name, s):
@@ -98,11 +99,13 @@ def putResult(d):
     return
   key = d['rcsid']
   prev_person = Person.get_by_id(key)
+  #If the person already exists in the database, update their entry
   if prev_person:
     logging.info("Updating %s", key)
     prev_person.update(d)
     prev_person.put()
     search.Index(name=_INDEX_NAME).put(createDocument(prev_person))
+  #Otherwise, add the new person entry 
   else:
     logging.info("New %s", key)
     person = Person.buildPerson(d)
@@ -128,11 +131,13 @@ def crawlPerson(index):
         else:
             index_from_ds = SearchPosition(id='index',position=1)
             index_from_ds.put()
+            #Index keeps count of the number of entries in the database
             index = 1
-            
+        #Print out the information retrieved from the page visited
         result = Crawler().getMap(index)
         logging.info(str(result))
         
+        #If the page of the user doesn't exist, there is an error
         if 'error' in result.keys():
             logging.warn("error at index" + str(index) + ", error is " + result['error'])
             if result['error'] == 'page_not_found':
@@ -142,12 +147,14 @@ def crawlPerson(index):
                 logging.warn("Index out of range: " + str(index))
                 index_from_ds.position = 1
                 index_from_ds.put()
+        #User page exists and add it to the database
         else:
             logging.info("putting results")
     
             putResult(result)
     
             index_from_ds.position = (int(index) + 1)
+            #Increase the total number of entries in the database
             logging.info("INCREMENT " + str(index))
             index_from_ds.put()
             mutex.unlock()
